@@ -6,7 +6,7 @@ import Boton from "../components/button";
 import PickerItem from "../components/select";
 import { useNavigation } from "@react-navigation/native";
 import { stylesHome } from "../styles/stylesregistro";
-import { API_POST_USER } from '@env';
+import { API_POST_USER, URL } from '@env';
 
 const Registro = () => {
     const navigation = useNavigation();
@@ -21,47 +21,50 @@ const Registro = () => {
     const [password, setPassword] = useState('');
 
     const Registrarse = async () => {
+        // Validar el tipo de identificación
         if (isNaN(tipoid) || tipoid === null) {
             Alert.alert("Por favor selecciona un tipo de identificación");
             return;
         }
-
-        const key = API_POST_USER;
-        const headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${key},`
-        };
+    
+        // Configurar el cuerpo de la solicitud
         const body = {
-            "identificacion": identificacion,
-            "tipoid": tipoid,
-            "nombre1": nombre1,
-            "nombre2": nombre2,
-            "apellido1": apellido1,
-            "apellido2": apellido2,
-            "telefono": telefono,
-            "email": email,
-            "password": password
+            identificacion,
+            tipoid,
+            nombre1,
+            nombre2,
+            apellido1,
+            apellido2,
+            telefono,
+            email,
+            password
         };
-        axios
-            .post(
-                `http://192.168.20.47/mymbarekove.shop/controller/mobile/users.php?token=${key}`,
+    
+        try {
+            // Realizar la solicitud POST con el token de autorización en el encabezado
+            const response = await axios.post(
+                `http://${URL}/mymbarekove.shop/controller/users.php`,
                 body,
-                { headers }
-            )
-            .then(async (response) => {
-                if (response.data.exito) {
-                    console.log("Registrado");
-                    Alert.alert(response.data.mensaje);
-                    navigation.navigate("Inicio")
-                } else {
-                    Alert.alert(response.data.mensaje);
-                    console.log(response.data.mensaje);            
+                {
+                    headers: {
+                        'Token': `Bearer ${API_POST_USER}` 
+                    }
                 }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    } 
+            );
+    
+            if (response.data.exito) {
+                console.log("Registrado");
+                Alert.alert(response.data.mensaje);
+                navigation.navigate("Inicio");
+            } else {
+                Alert.alert(response.data.mensaje);
+                console.log(response.data.mensaje);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    
 
     return (
         <ScrollView>

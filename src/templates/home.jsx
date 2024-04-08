@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { Text, View, Image, TouchableOpacity, Alert } from "react-native";
+import { Text, View, Image, TouchableOpacity, Alert, Linking } from "react-native";
 import InputTexto from "../components/input";
 import Boton from "../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { stylesHome } from "../styles/styleshome";
-import { login } from "@env";
+import { login, URL } from "@env";
 const Home = () => {
   const navigation = useNavigation();
 
@@ -17,7 +17,7 @@ const Home = () => {
     const key = login;
     const headers = {
       "Content-Type": "application/json",
-      Authorization: key,
+      "token": key,
     };
     const body = {
       email: email,
@@ -25,7 +25,7 @@ const Home = () => {
     };
     axios
       .post(
-        `http://192.168.20.47/mymbarekove.shop/controller/login?token=${key}`,
+        `http://${URL}/mymbarekove.shop/controller/login.php`,
         body,
         { headers }
       )
@@ -36,21 +36,25 @@ const Home = () => {
             JSON.stringify(response.data.data)
           );
           console.log(response.data);
-          Alert.alert("Inicio de sesión exitoso"); // Cambiado el mensaje de la alerta
           const userData = await AsyncStorage.getItem("userData");
           console.log(
             "Datos del usuario obtenidos de AsyncStorage:",
             JSON.parse(userData)
           );
-        }else{
+          navigation.navigate("Catalogo")
+        } else {
           console.log(response.data);
-          Alert.alert("Inicio de sesión no exitoso",response.data.mensaje);
+          Alert.alert("Inicio de sesión no exitoso", response.data.mensaje);
         }
       })
       .catch((error) => {
         console.error(error);
-        Alert.alert("Error al iniciar sesión. Por favor, inténtalo de nuevo."); // Mensaje de error genérico
+        Alert.alert("Error al iniciar sesión. Por favor, inténtalo de nuevo."); 
       });
+  };
+
+  const handlePress = () => {
+    Linking.openURL(`http://${URL}/mymbarekove.shop/catalogo/passwordback/solicitar.php`);
   };
 
   return (
@@ -83,9 +87,8 @@ const Home = () => {
             <TouchableOpacity onPress={() => navigation.navigate("Registro")}>
               <Text>¿No te has registrado?</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("RecuperarPassword")}
-            >
+            <TouchableOpacity onPress={handlePress}>
+              
               <Text>¿Olvidaste tu contraseña?</Text>
             </TouchableOpacity>
           </View>
