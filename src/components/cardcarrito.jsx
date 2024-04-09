@@ -17,6 +17,7 @@ const CardCarrito = () => {
             if (carrito) {
                 const productosCarrito = JSON.parse(carrito);
                 setProductos(productosCarrito);
+                console.log(productosCarrito)
             }
         } catch (error) {
             console.error("Error al obtener productos del carrito:", error);
