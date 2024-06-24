@@ -1,181 +1,147 @@
-  import React, { useState, useEffect } from "react";
-  import AsyncStorage from "@react-native-async-storage/async-storage";
-  import axios from "axios";
-  import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
-  import Header from "../components/header";
-  import Navbar from "../components/navbar";
-  import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
-  import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-  import InputTexto from "../components/input"; // Asegúrate de importar correctamente el componente InputTexto
-  import { URL, API_KEY_GET, API_POST_USER } from "@env";
-  
-  const Perfil = () => {
-    const [datos, setDatos] = useState({
-      identificacion: '',
-      primerNombre: '',
-      segundoNombre: '',
-      primerApellido: '',
-      segundoApellido: '',
-      telefono: '',
-      email: ''
-    });
-  
-    useEffect(() => {
-      obtenerDatos();
-    }, []);
-  
-    const obtenerDatos = async () => {
-      try {
-        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
-        const userId = userData.id;
-  
-        const response = await axios.get(
-          `http://${URL}/mymbarekove.shop/controller/users.php/${userId}`,
-          {
-            headers: {
-              token: API_KEY_GET,
-            },
-          }
-        );
-        const user = response.data[0]; // Obtén el primer objeto del array de datos
-        setDatos({
-          identificacion: user.identificacion,
-          primerNombre: user.primerNombre,
-          segundoNombre: user.segundoNombre,
-          primerApellido: user.primerApellido,
-          segundoApellido: user.segundoApellido,
-          telefono: user.telefono,
-          email: user.email
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
-    const handleInputChange = (text, key) => {
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import Header from "../components/header";
+import Navbar from "../components/navbar";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import InputTexto from "../components/input"; // Asegúrate de importar correctamente el componente InputTexto
+import { URL, API_KEY_GET, API_POST_USER } from "@env";
+
+const Perfil = () => {
+  const [identificacion, setIdentificacion] = useState('');
+  const [datos, setDatos] = useState({
+    id: '',
+    nombre1: '',
+    nombre2: '',
+    apellido1: '',
+    apellido2: '',
+    telefono: '',
+    email: ''
+  });
+
+  useEffect(() => {
+    obtenerDatos();
+  }, []);
+
+  const obtenerDatos = async () => {
+    try {
+      const id = JSON.parse(await AsyncStorage.getItem("id"));
+      const response = await axios.get(`${URL}/usuarios/${id}`);
+      const user = response.data;
+      setIdentificacion(response.data.identificacion);
       setDatos({
-        ...datos,
-        [key]: text
+        id: id,
+        nombre1: user.primerNombre,
+        nombre2: user.segundoNombre,
+        apellido1: user.primerApellido,
+        apellido2: user.segundoApellido,
+        telefono: user.telefono,
+        email: user.email
       });
-    };
-  
-    const enviarDatos = async () => {
-      try {
-        const userData = JSON.parse(await AsyncStorage.getItem("userData"));
-        const userId = userData.id;
-  
-        const response = await axios.put(
-          `http://${URL}/mymbarekove.shop/controller/users`,
-          datos, 
-          {
-            headers: {
-              token: `Bearer ${API_POST_USER}`,
-            },
-          }
-        );
-        console.log(response.data); 
-        if(response.data.exito){
-            Alert.alert("Datos actualizados");
-        }
-      } catch (error) {
-        console.error(error);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleInputChange = (text, key) => {
+    setDatos((prevDatos) => ({
+      ...prevDatos,
+      [key]: text
+    }));
+  };
+
+  const enviarDatos = async () => {
+    try {
+      const response = await axios.put(`${URL}/usuarios/update`, datos);
+      console.log(response.data);
+      if (response.data.status) {
+        Alert.alert("Datos actualizados");
       }
-    };
-  
-    return (
-      <>
-        <Header />
-        <ScrollView>
-          <View style={styles.container}>
-            {datos && (
-              <View>
-                <View style={styles.usericon}>
-                  <FontAwesomeIcon
-                    icon={faUserCircle}
-                    size={140}
-                    style={{ color: "#594A3C" }}
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <>
+      <Header />
+      <ScrollView>
+        <View style={styles.container}>
+          {datos && (
+            <View>
+              <View style={styles.usericon}>
+                <FontAwesomeIcon
+                  icon={faUserCircle}
+                  size={140}
+                  style={{ color: "#594A3C" }}
+                />
+                <Text style={styles.textonormal2}>
+                  {datos.nombre1} {datos.nombre2} {datos.apellido1} {datos.apellido2}
+                </Text>
+                <Text style={styles.textonormal}>{datos.email}</Text>
+                <Text style={styles.textonormal}>{datos.telefono}</Text>
+              </View>
+              <View style={styles.containerform}>
+                <View style={styles.containerdatos}>
+                  <InputTexto
+                    value={identificacion}
+                    placeholder="Identificación"
+                    onChangeText={(text) => handleInputChange(text, "id")}
+                    label="Identificación"
+                    editable={false}
                   />
-                  <Text style={styles.textonormal}>
-                    ID: {datos.identificacion}
-                  </Text>
-                  <Text style={styles.textonormal2}>
-                    {" "}
-                    {datos.primerNombre} {datos.segundoNombre}{" "}
-                    {datos.primerApellido} {datos.segundoApellido}
-                  </Text>
-                  <Text style={styles.textonormal}> {datos.email}</Text>
-                  <Text style={styles.textonormal}> {datos.telefono}</Text>
-                </View>
-                <View style={styles.containerform}>
-                  <View style={styles.containerdatos}>
-                    <InputTexto
-                      value={datos.identificacion}
-                      placeholder="Identificación"
-                      onChangeText={(text) =>
-                        handleInputChange(text, "identificacion")
-                      }
-                      label="Identificación"
-                      editable={false}
-                    />
-                    <InputTexto
-                      value={datos.primerNombre}
-                      placeholder="Primer nombre"
-                      onChangeText={(text) =>
-                        handleInputChange(text, "primerNombre")
-                      }
-                      label="Primer nombre"
-                    />
-                    <InputTexto
-                      value={datos.segundoNombre}
-                      placeholder="Segundo nombre"
-                      onChangeText={(text) =>
-                        handleInputChange(text, "segundoNombre")
-                      }
-                      label="Segundo nombre"
-                    />
-                    <InputTexto
-                      value={datos.primerApellido}
-                      placeholder="Primer apellido"
-                      onChangeText={(text) =>
-                        handleInputChange(text, "primerApellido")
-                      }
-                      label="Primer apellido"
-                    />
-                    <InputTexto
-                      value={datos.segundoApellido}
-                      placeholder="Segundo apellido"
-                      onChangeText={(text) =>
-                        handleInputChange(text, "segundoApellido")
-                      }
-                      label="Segundo apellido"
-                    />
-                    <InputTexto
-                      value={datos.telefono}
-                      placeholder="Teléfono"
-                      onChangeText={(text) => handleInputChange(text, "telefono")}
-                      label="Teléfono"
-                    />
-                    <InputTexto
-                      value={datos.email}
-                      placeholder="Correo electrónico"
-                      onChangeText={(text) => handleInputChange(text, "email")}
-                      label="Correo electrónico"
-                      editable={false}
-                    />
-                    <TouchableOpacity onPress={enviarDatos}>
-                      <Text style={styles.button}>Guardar cambios</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <InputTexto
+                    value={datos.nombre1}
+                    placeholder="Primer nombre"
+                    onChangeText={(text) => handleInputChange(text, "nombre1")}
+                    label="Primer nombre"
+                  />
+                  <InputTexto
+                    value={datos.nombre2}
+                    placeholder="Segundo nombre"
+                    onChangeText={(text) => handleInputChange(text, "nombre2")}
+                    label="Segundo nombre"
+                  />
+                  <InputTexto
+                    value={datos.apellido1}
+                    placeholder="Primer apellido"
+                    onChangeText={(text) => handleInputChange(text, "apellido1")}
+                    label="Primer apellido"
+                  />
+                  <InputTexto
+                    value={datos.apellido2}
+                    placeholder="Segundo apellido"
+                    onChangeText={(text) => handleInputChange(text, "apellido2")}
+                    label="Segundo apellido"
+                  />
+                  <InputTexto
+                    value={datos.telefono}
+                    placeholder="Teléfono"
+                    onChangeText={(text) => handleInputChange(text, "telefono")}
+                    label="Teléfono"
+                  />
+                  <InputTexto
+                    value={datos.email}
+                    placeholder="Correo electrónico"
+                    onChangeText={(text) => handleInputChange(text, "email")}
+                    label="Correo electrónico"
+                    editable={false}
+                  />
+                  <TouchableOpacity onPress={enviarDatos}>
+                    <Text style={styles.button}>Guardar cambios</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
-            )}
-          </View>
-        </ScrollView>
-        <Navbar />
-      </>
-    );
-  };
-  
+            </View>
+          )}
+        </View>
+      </ScrollView>
+      <Navbar />
+    </>
+  );
+};
 
 const styles = StyleSheet.create({
   usericon: {
@@ -198,7 +164,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#fff",
   },
-  containerform:{
+  containerform: {
     backgroundColor: 'white',
     width: '100%',
     alignItems: 'center',

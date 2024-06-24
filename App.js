@@ -11,7 +11,7 @@ import Producto from './src/templates/producto';
 import Carrito from './src/templates/carrito';
 import Perfil from './src/templates/perfil';
 import DireccionScreen from './src/templates/direccion';
-
+import PasswordChange from './src/templates/password';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -40,7 +40,7 @@ export default function App() {
         <Stack.Screen name="Carrito" component={Carrito} options={{headerShown:false}}/>
         <Stack.Screen name="Perfil" component={Perfil} options={{headerShown:false}}/>
         <Stack.Screen name="Direccion" component={DireccionScreen} options={{headerShown:true}}/>
-
+        <Stack.Screen name="Cambio clave" component={PasswordChange} options={{headerShown:true}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

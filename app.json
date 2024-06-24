@@ -21,13 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/Logo veterinaria animado azul rosado.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.agmethjimenez321.MymbaMobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a1f2f577-b094-421f-bf55-80dd888aff70"
+      }
+    }
   }
 }

@@ -12,11 +12,7 @@ const Card = () => {
   const obtenerProductos = async () => {
     try {
   
-      const response = await axios.get(`http://${URL}/mymbarekove.shop/controller/producto.php`, {
-        headers: {
-          'Token': `Bearer ${KEY_PRODUCTS}`,
-        }
-      });
+      const response = await axios.get(`${URL}/productos/read`);
   
       setProductos(response.data);
     } catch (error) {

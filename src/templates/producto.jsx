@@ -10,12 +10,8 @@ const Producto = ({ route }) => {
     useEffect(() => {
         const ObtenerProducto = async () => {
             try {
-                const response = await axios.get(`http://${URL}/mymbarekove.shop/controller/producto.php/${productId}`,{
-                    headers:{
-                        'token': `Bearer ${KEY_PRODUCTS}`
-                    }
-                })
-                setProducto(response.data[0]); 
+                const response = await axios.get(`${URL}/productos/read/${productId}`);
+                setProducto(response.data); 
             } catch (error) {
                 console.error(error);
             }
@@ -26,7 +22,7 @@ const Producto = ({ route }) => {
 
     return (
         <View >
-            {producto && ( // Renderiza la información del producto solo si producto está definido
+            {producto && ( 
             <ScrollView>
                 <View style={styles.main}>
                     <View style={styles.imgcontainer}>

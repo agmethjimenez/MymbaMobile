@@ -15,28 +15,17 @@ const Home = () => {
 
   const Login = async () => {
     const key = login;
-    const headers = {
-      "Content-Type": "application/json",
-      "token": key,
-    };
     const body = {
       email: email,
       password: password,
     };
-    axios
-      .post(
-        `http://${URL}/mymbarekove.shop/controller/login.php`,
-        body,
-        { headers }
-      )
+    axios.post(`${URL}/login`,body)
       .then(async (response) => {
-        if (response.data.acceso) {
-          await AsyncStorage.setItem(
-            "userData",
-            JSON.stringify(response.data.data)
-          );
+        if (response.data.status && response.data.tipo == "user") {
+          await AsyncStorage.setItem("id",JSON.stringify(response.data.id));
+          await AsyncStorage.setItem("token",JSON.stringify(response.data.token));
           console.log(response.data);
-          const userData = await AsyncStorage.getItem("userData");
+          const userData = await AsyncStorage.getItem("id");
           console.log(
             "Datos del usuario obtenidos de AsyncStorage:",
             JSON.parse(userData)
@@ -44,7 +33,7 @@ const Home = () => {
           navigation.navigate("Catalogo")
         } else {
           console.log(response.data);
-          Alert.alert("Inicio de sesión no exitoso", response.data.mensaje);
+          Alert.alert("Inicio de sesión no exitoso", response.data.message);
         }
       })
       .catch((error) => {
@@ -54,7 +43,7 @@ const Home = () => {
   };
 
   const handlePress = () => {
-    Linking.openURL(`http://${URL}/mymbarekove.shop/catalogo/passwordback/solicitar.php`);
+    Linking.openURL(`http:/mymbarekove.shop/catalogo/passwordback/solicitar.php`);
   };
 
   return (
