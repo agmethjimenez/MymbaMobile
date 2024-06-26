@@ -28,37 +28,42 @@ const Registro = () => {
         }
     
         // Configurar el cuerpo de la solicitud
+        /*$user = Usuario::InsertUser([
+            'identificacion' => $request->identificacion,
+            'tipoId' => $request->tipoId,
+            'primerNombre' => $request->primerNombre,
+            'segundoNombre' => $request->segundoNombre,
+            'primerApellido' => $request->primerApellido,
+            'segundoApellido' => $request->segundoApellido,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+            'password' => $request->password,
+        ]) */
         const body = {
-            identificacion,
-            tipoid,
-            nombre1,
-            nombre2,
-            apellido1,
-            apellido2,
-            telefono,
-            email,
-            password
+            "identificacion":identificacion,
+            "tipoId":tipoid,
+            "primerNombre":nombre1,
+            "segundoNombre": nombre2,
+            "primerApellido":apellido1,
+            "segundoApellido":apellido2,
+            "telefono":telefono,
+            "email":email,
+            "password":password
         };
     
         try {
             // Realizar la solicitud POST con el token de autorización en el encabezado
             const response = await axios.post(
-                `http://${URL}/mymbarekove.shop/controller/users.php`,
+                `${URL}/usuario`,
                 body,
-                {
-                    headers: {
-                        'Token': `Bearer ${API_POST_USER}` 
-                    }
-                }
             );
     
-            if (response.data.exito) {
+            if (response.data.status) {
                 console.log("Registrado");
-                Alert.alert(response.data.mensaje);
+                Alert.alert("Exito","Registrado exitosamente puedes iniciar sesion");
                 navigation.navigate("Inicio");
             } else {
-                Alert.alert(response.data.mensaje);
-                console.log(response.data.mensaje);
+                Alert.alert("Error","Error al registrarse como usuario");
             }
         } catch (error) {
             console.error(error);

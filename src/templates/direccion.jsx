@@ -19,38 +19,22 @@ const DireccionScreen = () => {
 
   const Pagar = async () => {
     try {
-        const userDataString = await AsyncStorage.getItem("userData");
-        const userData = JSON.parse(userDataString);
-        const userId = userData.id;
-
+        const userId = await AsyncStorage.getItem("id");
+    
         const carrito = await AsyncStorage.getItem("carritoProductos");
+        const carritoEncoded = encodeURIComponent(carrito);
 
         const direccion = await AsyncStorage.getItem("direccion");
+        const direccionEncoded = encodeURIComponent(direccion);
+
         const ciudad = await AsyncStorage.getItem("ciudad");
+        const ciudadEncoded = encodeURIComponent(ciudad);
 
-        const body = {
-            idUsuario: userId,
-            carrito: JSON.parse(carrito), 
-            direccion: direccion,
-            ciudad: ciudad
-        };
+        const url = `http://192.168.20.47/mymbarekove.shop/catalogo/checkoutmobile/chekout.php?idUsuario=${userId}&carrito=${carritoEncoded}&direccion=${direccionEncoded}&ciudad=${ciudadEncoded}`;
 
-        console.log(body)
+        console.log(url); 
 
-        const response = await axios.post(`http://192.168.20.47/mymbarekove.shop/catalogo/checkoutmobile/chekout.php`, body, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-
-        console.log(response.data); 
-
-        if (response.data.exito) {
-            console.log(response.data.url); 
-            Linking.openURL(response.data.url);
-        } else {
-            console.error('Error en la solicitud fetch:', response.data.mensaje);
-        }
+        Linking.openURL(url);
     } catch (error) {
         console.error('Error en la solicitud fetch:', error);
     }

@@ -66,7 +66,6 @@ const Perfil = () => {
 
   return (
     <>
-      <Header />
       <ScrollView>
         <View style={styles.container}>
           {datos && (

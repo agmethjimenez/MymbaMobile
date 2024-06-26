@@ -7,8 +7,6 @@ import Optioncart from '../components/optioncart'
 const Carrito = () => {
   return (
     <>
-    
-    <Header/>
     <ScrollView style={style.body}>
     <Text style={style.tittle}>Carrito de Compras</Text>
     <CardCarrito/>

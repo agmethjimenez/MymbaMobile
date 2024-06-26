@@ -7,6 +7,7 @@ export const stylesclave = StyleSheet.create({
         flex:1,
         width:'100%',
         alignItems:'center',
+        justifyContent: 'center',
         fontFamily: 'Montserrat_500Medium',
     },
     container: {
@@ -28,4 +29,8 @@ export const stylesclave = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
       },
+      titulo:{
+        fontWeight:'bold',
+        fontSize:30,
+      }
 });

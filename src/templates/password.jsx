@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import InputTexto from '../components/input'
 import Boton from '../components/button'
 import axios from 'axios';
-import { Alert, View } from 'react-native'
+import { Alert, View,Text } from 'react-native'
 import { stylesclave } from '../styles/stylescambiclave';
 const PasswordChange = () => {
     const [claveActual, setClaveActual] = useState('')
@@ -32,6 +32,7 @@ const PasswordChange = () => {
     return (
         <View style={stylesclave.body}>
             <View style={stylesclave.container}>
+                <Text style={stylesclave.titulo}>Cambio de clave</Text>
                 <InputTexto label="Clave actual" secureTextEntry={true} onChangeText={setClaveActual} placeholder="Ingrese su clave actual." />
                 <InputTexto label="Clave nueva" secureTextEntry={true} onChangeText={setClaveNueva} placeholder="Ingrese la clave nueva" />
                 <InputTexto label="Clave nueva" secureTextEntry={true} onChangeText={setClaveNueva2} placeholder="Repita la clave nueva" />
