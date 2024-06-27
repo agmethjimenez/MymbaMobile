@@ -2,46 +2,47 @@ import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios';
-import { URL, KEY_PRODUCTS } from '@env';
+import { URL } from '@env';
 import { agregarAlCarrito } from "../carritofunction";
 
-const Card = () => {
+const Card = ({ name }) => {
   const navigation = useNavigation();
   const [productos, setProductos] = useState([]);
 
   const obtenerProductos = async () => {
     try {
-  
-      const response = await axios.get(`${URL}/productos/read`);
-  
+      let url = `${URL}/productos/read`;
+      if (name) {
+        url += `?nm=${name}`;
+      }
+      const response = await axios.get(url);
       setProductos(response.data);
     } catch (error) {
       console.error("Error al obtener productos:", error);
     }
-  }
-  
+  };
 
   useEffect(() => {
     obtenerProductos();
-  }, []);
+  }, [name]);
 
   return (
     <View style={styles.container}>
-  {productos.map((item, index) => (
-    <View style={styles.cardContainer} key={index}>
-      <TouchableOpacity onPress={() => navigation.navigate("Producto", { productId: item.idProducto })}>
-        <View style={styles.card}>
-          <Image source={{uri: item.imagen}} style={styles.imagenProducto} />
-          <Text style={styles.nombreProducto}>{item.nombre}</Text>
-          <Text style={styles.precioProducto}>Precio: ${item.precio}</Text>
-          <TouchableOpacity style={styles.boton} onPress={() => agregarAlCarrito(item.nombre, item.precio, item.idProducto, 1, item.imagen, item.cantidadDisponible)}>                
-            <Text style={styles.textoBoton}>Comprar</Text>
+      {productos.map((item, index) => (
+        <View style={styles.cardContainer} key={index}>
+          <TouchableOpacity onPress={() => navigation.navigate("Producto", { productId: item.idProducto })}>
+            <View style={styles.card}>
+              <Image source={{ uri: item.imagen }} style={styles.imagenProducto} />
+              <Text style={styles.nombreProducto}>{item.nombre}</Text>
+              <Text style={styles.precioProducto}>Precio: ${item.precio}</Text>
+              <TouchableOpacity style={styles.boton} onPress={() => agregarAlCarrito(item.nombre, item.precio, item.idProducto, 1, item.imagen, item.cantidadDisponible)}>
+                <Text style={styles.textoBoton}>Comprar</Text>
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      ))}
     </View>
-  ))}
-</View>
   );
 };
 

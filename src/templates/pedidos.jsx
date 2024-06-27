@@ -11,7 +11,7 @@ const PedidoItem = ({ pedido }) => {
   return (
     <TouchableOpacity
       style={styles.pedidoContainer}
-      onPress={() => navigation.navigate('PedidoDetalles', { pedidoId: pedido.id })}
+      onPress={() => navigation.navigate('DetallePedido', { pedidoId: pedido.id })}
     >
       <Text style={styles.pedidoText}>Pedido #{pedido.id}</Text>
       <Text style={styles.pedidoText}>Fecha: {pedido.fecha}</Text>

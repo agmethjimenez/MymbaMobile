@@ -43,7 +43,7 @@ const Home = () => {
   };
 
   const handlePress = () => {
-    Linking.openURL(`http:/mymbarekove.shop/catalogo/passwordback/solicitar.php`);
+    Linking.openURL(`https://mymbarekoveshop.000webhostapp.com/catalogo/passwordback/solicitar.php`);
   };
 
   return (

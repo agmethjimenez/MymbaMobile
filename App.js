@@ -17,7 +17,8 @@ import DrawerComponent from './src/components/drawerComponent';
 import { useFonts as useOxygen, Oxygen_400Regular } from '@expo-google-fonts/oxygen';
 import { useFonts as useMontserrat, Montserrat_400Regular, Montserrat_500Medium } from '@expo-google-fonts/montserrat';
 import Pedidos from './src/templates/pedidos';
-
+import DetallePedido from './src/templates/detallepedido';
+import Logout from './src/templates/logout';
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
@@ -61,6 +62,8 @@ export default function App() {
         <Drawer.Screen name="Direccion" component={DireccionScreen} />
         <Drawer.Screen name="Cambio clave" component={PasswordChange} />
         <Drawer.Screen name="Pedidos" component={Pedidos} />
+        <Drawer.Screen name="DetallePedido" component={DetallePedido} />
+        <Drawer.Screen name="Logout" component={Logout} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

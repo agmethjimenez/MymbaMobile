@@ -23,7 +23,7 @@ const DrawerComponent = () => {
       <TouchableOpacity style={styles.item} onPress={goToScreen('Cambio clave')}>
         <Text style={styles.text}>Cambio de clave</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item2} onPress={goToScreen('Perfil')}>
+      <TouchableOpacity style={styles.item2} onPress={goToScreen('Logout')}>
 
         <Text style={styles.text}>Cerrar Sesión</Text>
       </TouchableOpacity>
