@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from 'axios';
-import { URL } from '@env';
+//import { URL } from '@env';
 import { agregarAlCarrito } from "../carritofunction";
-
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 const Card = ({ name }) => {
   const navigation = useNavigation();
   const [productos, setProductos] = useState([]);

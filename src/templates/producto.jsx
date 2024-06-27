@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Image, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios'; // Importa axios
-import { URL, KEY_PRODUCTS } from '@env';
-
+//import { URL, KEY_PRODUCTS } from '@env';
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 const Producto = ({ route }) => {
     const { productId } = route.params;
     const [producto, setProducto] = useState(null); 

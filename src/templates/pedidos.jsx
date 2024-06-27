@@ -3,7 +3,8 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { URL } from '@env';
+//import { URL } from '@env';
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 
 const PedidoItem = ({ pedido }) => {
   const navigation = useNavigation();

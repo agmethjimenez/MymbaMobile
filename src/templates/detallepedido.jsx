@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
-import { URL } from '@env';
-
+//import { URL } from '@env';
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 const DetallePedido = ({ route }) => {
   const { pedidoId } = route.params;
   const [pedido, setPedido] = useState(null);

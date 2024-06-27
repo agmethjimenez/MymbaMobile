@@ -7,7 +7,8 @@ import Navbar from "../components/navbar";
 import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import InputTexto from "../components/input"; // Asegúrate de importar correctamente el componente InputTexto
-import { URL, API_KEY_GET, API_POST_USER } from "@env";
+//imp<ort { URL, API_KEY_GET, API_POST_USER } from "@env";
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 
 const Perfil = () => {
   const [identificacion, setIdentificacion] = useState('');

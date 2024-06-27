@@ -6,7 +6,8 @@ import InputTexto from "../components/input";
 import Boton from "../components/button";
 import { useNavigation } from "@react-navigation/native";
 import { stylesHome } from "../styles/styleshome";
-import { login, URL } from "@env";
+//import { login, URL } from "@env";
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 const Home = () => {
   const navigation = useNavigation();
 
@@ -14,12 +15,12 @@ const Home = () => {
   const [password, setPassword] = useState("");
 
   const Login = async () => {
-    const key = login;
+    
     const body = {
       email: email,
       password: password,
     };
-    axios.post(`${URL}/login`,body)
+    axios.post(`https://mymba-rekove-shop-backend-production.up.railway.app/api/login`,body)
       .then(async (response) => {
         if (response.data.status && response.data.tipo == "user") {
           await AsyncStorage.setItem("id",JSON.stringify(response.data.id));

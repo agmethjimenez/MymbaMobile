@@ -6,8 +6,8 @@ import Boton from "../components/button";
 import PickerItem from "../components/select";
 import { useNavigation } from "@react-navigation/native";
 import { stylesHome } from "../styles/stylesregistro";
-import { API_POST_USER, URL } from '@env';
-
+//import { API_POST_USER, URL } from '@env';
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 const Registro = () => {
     const navigation = useNavigation();
     const [tipoid, setTipoid] = useState(null);

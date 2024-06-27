@@ -7,7 +7,8 @@ import { useNavigation } from "@react-navigation/native";
 import PickerItem from "../components/select";
 import Boton from "../components/button";
 import axios from "axios";
-import { URL } from '@env';
+//import { URL } from '@env';
+const URL = "https://mymba-rekove-shop-backend-production.up.railway.app/api";
 
 const DireccionScreen = () => {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ const DireccionScreen = () => {
         const ciudad = await AsyncStorage.getItem("ciudad");
         const ciudadEncoded = encodeURIComponent(ciudad);
 
-        const url = `http://192.168.20.47/mymbarekove.shop/catalogo/checkoutmobile/chekout.php?idUsuario=${userId}&carrito=${carritoEncoded}&direccion=${direccionEncoded}&ciudad=${ciudadEncoded}`;
+        const url = `https://mymbarekoveshop.000webhostapp.com/catalogo/checkoutmobile/chekout.php?idUsuario=${userId}&carrito=${carritoEncoded}&direccion=${direccionEncoded}&ciudad=${ciudadEncoded}`;
 
         console.log(url); 
 
